@@ -1,0 +1,25 @@
+#: import main main
+RootWidget:
+
+
+<RootWidget>:
+	QueryStation
+
+<QueryStation>:
+    search_button: search_button
+	orientation: "vertical"
+	BoxLayout:
+		size_hint_y: None
+		height: "40dp"
+		TextInput:
+			size_hint_x: 80
+			focus:True
+			multiline:False
+		Button:
+		    id: search_button
+		    text: "Search"
+			size_hint_x: 20
+			on_press: root.change_font()
+
+	
+
