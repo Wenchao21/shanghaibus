@@ -1,25 +1,99 @@
 #: import main main
+#: import ListItemButton kivy.uix.listview.ListItemButton
+#: import ListAdapter kivy.adapters.listadapter.ListAdapter
 RootWidget:
 
 
 <RootWidget>:
-	QueryStation
+    query_form: query_form
+    QueryStation:
+        id: query_form
+
+
+<BusListButton>:
+    on_press: self.show_bus_router()
 
 <QueryStation>:
-    search_button: search_button
+    bus_names: bus_names
+    search_input: search_input
+    search_label: search_label
 	orientation: "vertical"
 	BoxLayout:
 		size_hint_y: None
 		height: "40dp"
+		Label:
+		    bcolor: [105, 105, 105, 0.5]
+		    canvas.before:
+		        Color:
+		            rgba: self.bcolor
+		        Rectangle:
+		            pos: self.pos
+		            size: self.size
+		    id: search_label
+			size_hint_x: 20
 		TextInput:
+		    id: search_input
 			size_hint_x: 80
 			focus:True
 			multiline:False
-		Button:
-		    id: search_button
-		    text: "Search"
-			size_hint_x: 20
-			on_press: root.change_font()
+			on_text: root.input_filter()
+	ListView:
+	    id: bus_names
+	    adapter:
+	        ListAdapter(data=[], cls=main.BusListButton)
 
+<BusDirection>:
+    on_press: self.change_bus_direction()
+
+<BusStation>:
+    on_press: self.show_station()
+
+<BusRouter>:
+    bus_name_label: bus_name_label
+    bus_station_label: bus_station_label
+    return_button: return_button
+    bus_direction_listbutton: bus_direction_listbutton
+    bus_station_listbutton: bus_station_listbutton
+    orientation: "vertical"
+    BoxLayout:
+        size_hint_y: None
+        height: "60dp"
+        Label:
+            bcolor: [105, 105, 105, 0.5]
+            canvas.before:
+                Color:
+                    rgba: self.bcolor
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            id: bus_name_label
+    ListView:
+        size_hint_y: None
+        height: "50"
+        id: bus_direction_listbutton
+        adapter:
+            ListAdapter(data=[], cls=main.BusDirection)
+    BoxLayout:
+        size_hint_y: None
+        height: "80dp"
+        Label:
+            bcolor: [105, 105, 105, 0.5]
+            canvas.before:
+                Color:
+                    rgba: self.bcolor
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            id: bus_station_label
+    ListView:
+        id: bus_station_listbutton
+        adapter:
+            ListAdapter(data=[], cls=main.BusStation)
+    BoxLayout:
+        size_hint_y: None
+        height: "40dp"
+        Button:
+            id: return_button
+            on_press: root.return_pre()
 	
 
