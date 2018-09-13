@@ -162,6 +162,7 @@ class BusRouter(BoxLayout):
     bus_station_label = ObjectProperty()
     return_button = ObjectProperty()
     bus_direction = 0
+    bus_direction_name = ""
 
     def __init__(self, busname, ftolinfo_data, bus_stations, bus_stations_reverse, sid, **kwargs):
         super(BusRouter, self).__init__(**kwargs)
@@ -185,9 +186,14 @@ class BusRouter(BoxLayout):
 
 
 class BusDirection(ListItemButton):
+    def __init__(self, **kwargs):
+        super(BusDirection, self).__init__(**kwargs)
+ #       self.get_parent_window().children[0].children[0].bus_direction_name = self.text
+
     def change_bus_direction(self):
         rootwidget = self.get_parent_window().children[0]
         busrouter_widget = rootwidget.children[0]
+        busrouter_widget.bus_direction_name = self.text
         if self.index == 1:
             render_listbutton(busrouter_widget.bus_station_listbutton, busrouter_widget.bus_stations_reverse)
             busrouter_widget.bus_direction = 1
@@ -199,17 +205,17 @@ class BusDirection(ListItemButton):
 class BusStation(ListItemButton):
     def query_stop_info(self):
         self.rootwidget = self.get_parent_window().children[0]
-        busrouter_widget = self.rootwidget.children[0]
-        direction = busrouter_widget.bus_direction
-        sid = busrouter_widget.sid
+        self.busrouter_widget = self.rootwidget.children[0]
+        direction = self.busrouter_widget.bus_direction
+        sid = self.busrouter_widget.sid
         stopid = self.text.split(".")[0]
-        data = {"stoptype": direction, "stopid": stopid, "sid": sid}
+        self.data = {"stoptype": direction, "stopid": stopid, "sid": sid}
         headers = {'Content-type': 'application/x-www-form-urlencoded',
                    'Accept': 'text/plain'}
-        req = UrlRequest(query_bus_stop, req_headers=headers, req_body=urllib.parse.urlencode(data),
+        req = UrlRequest(query_bus_stop, req_headers=headers, req_body=urllib.parse.urlencode(self.data),
                          on_success=self.parse_stop_info)
         self.rootwidget.clear_widgets()
-        self.rootwidget.add_widget(Image(source="ezgif-2-8219edf39b-gif-png.zip"))
+        self.rootwidget.remove_widget(Image(source="ezgif-2-8219edf39b-gif-png.zip"))
 
     def parse_stop_info(self, req, result):
         print(result)
@@ -219,13 +225,53 @@ class BusStation(ListItemButton):
             self.bus_code = json.loads(result)[0]["terminal"]
             self.bus_distance = json.loads(result)[0]["stopdis"]
             self.bus_time = int(json.loads(result)[0]["time"])//60
-            self.rootwidget.add_widget(ColorLabel(text=self.bus + self.bus_code + self.bus_distance + str(self.bus_time)
-                                                  , font_name=new_font))
+            self.rootwidget.clear_widgets()
+            info = "公交车牌照:{0}\n距离本站间隔:{1}\n距离本站时间(分钟):{2}".format(self.bus_code, self.bus_distance,
+                                                                  str(self.bus_time))
+            self.rootwidget.add_widget(BusStopInfo(self.data, self.busrouter_widget.bus_name_label.text,
+                                                   self.busrouter_widget.bus_direction_name, info))
+#            self.rootwidget.add_widget(ColorLabel(text=self.bus+self.bus_code+self.bus_distance+str(self.bus_time),
+#                                                  font_name=new_font))
         except:
             self.errorcode = json.loads(result)["error"]
             if self.errorcode == "-2":
-                self.rootwidget.add_widget(ColorLabel(text="等待发车", font_name=new_font))
+                print(dir(self.rootwidget))
+                self.rootwidget.clear_widgets()
+                info = "等待发车"
+                self.rootwidget.add_widget(BusStopInfo(self.data, self.busrouter_widget.bus_name_label.text,
+                                                       self.busrouter_widget.bus_direction_name, info))
+#               self.rootwidget.add_widget(ColorLabel(text="等待发车", font_name=new_font))
 
+
+class BusStopInfo(BoxLayout):
+    stopinfotitle_label = ObjectProperty()
+    stopinfobusname_label = ObjectProperty()
+    stopinfobusdirection_label = ObjectProperty()
+    stopinfoback_button = ObjectProperty()
+    stopinfowatch_button = ObjectProperty()
+    stopinfo_label = ObjectProperty()
+
+    def __init__(self, data, bus_name, direction_name, info):
+        super().__init__()
+        self.stopinfotitle_label.text = "公交到站信息"
+        self.stopinfotitle_label.font_name = new_font
+        self.stopinfobusname_label.text = bus_name
+        self.stopinfobusname_label.font_name = new_font
+        self.stopinfobusdirection_label.text = direction_name
+        self.stopinfobusdirection_label.font_name = new_font
+        self.stopinfoback_button.text = "返回"
+        self.stopinfoback_button.font_name = new_font
+        self.stopinfowatch_button.text = "监控"
+        self.stopinfowatch_button.font_name = new_font
+        self.stopinfo_label.text = info
+        self.stopinfo_label.font_name = new_font
+        self.data = data
+
+    def back_to_busrouter(self):
+#        print(self.get_parent_window().children.add_widget)
+        pass
+    def add_to_watchlist(self):
+        print("watched")
 
 
 
