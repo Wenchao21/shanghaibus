@@ -1,7 +1,8 @@
 #: import main main
 #: import ListItemButton kivy.uix.listview.ListItemButton
 #: import ListAdapter kivy.adapters.listadapter.ListAdapter
-RootWidget:
+
+RootWidget
 
 
 <RootWidget>:
@@ -30,6 +31,7 @@ RootWidget:
 	    id: bus_names
 	    adapter:
 	        ListAdapter(data=[], cls=main.BusesListButton)
+	MenuButton:
 
 <ColorLabel>:
 	bcolor: [105, 105, 105, 0.5]
@@ -82,6 +84,7 @@ RootWidget:
         Button:
             id: return_button
             on_press: root.return_pre()
+    MenuButton:
 	
 
 <BusStopInfo>:
@@ -130,4 +133,171 @@ RootWidget:
         Button:
             id: stopinfowatch_button
             size_hint_x: 50
-            on_press: root.add_to_watchlist()
+            on_press:root.add_to_watchlist()
+    MenuButton:
+
+
+<MenuButton>:
+    menu_query: menu_query
+    menu_watch: menu_watch
+    menu_about: menu_about
+    size_hint_y: None
+    height: "40dp"
+    BoxLayout:
+        Button:
+            id: menu_query
+            size_hint_x: 33
+            on_press: root.to_query()
+        Button:
+            id: menu_watch
+            size_hint_x: 33
+            on_press: root.to_watch()
+        Button:
+            id: menu_about
+            size_hint_x: 33
+            on_press: root.to_about()
+
+<AboutWidget>:
+    about_info: about_info
+    update: update
+    orientation: "vertical"
+    ColorLabel:
+        id: about_info
+    BoxLayout:
+        size_hint_y: None
+        height: "40dp"
+        Button:
+            id: update
+            on_press: root.update_buslist()
+    MenuButton:
+
+<WatchListWidget>
+    watch_list_label: watch_list_label
+    station_watch_list: station_watch_list
+    orientation: "vertical"
+    BoxLayout:
+        size_hint_y: None
+        height: "40dp"
+        ColorLabel:
+            id: watch_list_label
+    ListView:
+        id: station_watch_list
+        adapter:
+            ListAdapter(data=[], cls=main.StationWatchList)
+    MenuButton:
+
+<StationWatchList>:
+    on_press: self.show_watch_station()
+
+<WatchedStationTest>:
+    ColorLabel:
+        text: "test"
+    MenuButton:
+
+<WatchedStation>:
+    watched_station_title_label: watched_station_title_label
+    watched_station_info_label: watched_station_info_label
+    watched_offset_station_label: watched_offset_station_label
+    watched_offset_station_textinput: watched_offset_station_textinput
+    watched_offset_time_label: watched_offset_time_label
+    watched_offset_time_textinput: watched_offset_time_textinput
+    check_option_label: check_option_label
+    check_option_checkbox: check_option_checkbox
+    watched_time_label: watched_time_label
+    start_hour_textinput: start_hour_textinput
+    start_min_textinput: start_min_textinput
+    end_hour_textinput: end_hour_textinput
+    end_min_textinput: end_min_textinput
+    delete_button: delete_button
+    orientation: "vertical"
+    BoxLayout:
+        size_hint_y: None
+        height: "40dp"
+        ColorLabel:
+            id: watched_station_title_label
+    Widget:
+        size_hint_y: None
+        height: "1dp"
+    BoxLayout:
+        size_hint_y: None
+        height: "60dp"
+        ColorLabel:
+            id: watched_station_info_label
+    Widget:
+        size_hint_y: None
+        height: "1dp"
+    BoxLayout:
+    	bcolor: [105, 105, 105, 0.5]
+	    canvas.before:
+            Color:
+                rgba: self.bcolor
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        size_hint_y: None
+        height: "30dp"
+        Label:
+            id: watched_offset_station_label
+            size_hint_x: 10
+        TextInput:
+            id: watched_offset_station_textinput
+            multiline: False
+            size_hint_x: 8
+            on_text: root.offset_station_input()
+        Label:
+            id: watched_offset_time_label
+            size_hint_x: 10
+        TextInput:
+            id: watched_offset_time_textinput
+            multiline: False
+            size_hint_x: 8
+        Label:
+            id: check_option_label
+            size_hint_x: 10
+        CheckBox:
+            id: check_option_checkbox
+            size_hint_x: 3
+            active: True
+    Widget:
+        size_hint_y: None
+        height: "1dp"
+    BoxLayout:
+        size_hint_y: None
+        height: "30dp"
+        ColorLabel:
+            id: watched_time_label
+            size_hint_x: 10
+        TextInput:
+            id: start_hour_textinput
+            size_hint_x: 8
+            text: "00"
+        ColorLabel:
+            size_hint_x: 2
+            text: ":"
+        TextInput:
+            id: start_min_textinput
+            size_hint_x: 8
+            text: "00"
+        ColorLabel:
+            size_hint_x: 4
+            text: "-- --"
+        TextInput:
+            id: end_hour_textinput
+            size_hint_x: 8
+            text: "24"
+        ColorLabel:
+            size_hint_x: 2
+            text: ":"
+        TextInput:
+            id: end_min_textinput
+            size_hint_x: 8
+            text: "00"
+    Widget:
+        size_hint_y: None
+        height: "360dp"
+    Button:
+        size_hint_y: None
+        height: "40dp"
+        id: delete_button
+        on_press: root.delete_station()
+    MenuButton:

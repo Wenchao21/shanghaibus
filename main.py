@@ -1,6 +1,7 @@
 ﻿#    -- coding:utf-8 --
 
 import kivy
+from kivy.storage.jsonstore import JsonStore
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
@@ -13,8 +14,11 @@ from xpinyin import Pinyin
 import json
 import urllib.parse
 from lxml import etree
+from kivy.clock import Clock
 
 
+store = JsonStore("info.json")
+watch_stations = JsonStore("watchlist.json")
 query_router_url = 'http://shanghaicity.openservice.kankanews.com/public/bus'
 query_bus_sid = "http://shanghaicity.openservice.kankanews.com/public/bus/get"
 query_bus_router = "http://shanghaicity.openservice.kankanews.com/public/bus/mes/sid/"
@@ -144,6 +148,11 @@ class BusesListButton(ListItemButton):
         self.rootwidget.clear_widgets()
         self.rootwidget.add_widget(BusRouter(self.cbusname, self.ftolinfo, self.bus_stations,
                                              self.bus_stations_reverse, self.sid))
+        store.put("cbusname", value=self.cbusname)
+        store.put("ftolinfo", value=self.ftolinfo)
+        store.put("bus_stations", value=self.bus_stations)
+        store.put("bus_stations_reverse", value=self.bus_stations_reverse)
+        store.put("sid", value=self.sid)
 
     def parse_bus_router_reverse(self, req, result):
         selector = etree.HTML(result)
@@ -153,7 +162,14 @@ class BusesListButton(ListItemButton):
         self.rootwidget.clear_widgets()
         self.rootwidget.add_widget(BusRouter(self.cbusname, self.ftolinfo, self.bus_stations,
                                              self.bus_stations_reverse, self.sid))
+        store.put("cbusname", value=self.cbusname)
+        store.put("ftolinfo", value=self.ftolinfo)
+        store.put("bus_stations", value=self.bus_stations)
+        store.put("bus_stations_reverse", value=self.bus_stations_reverse)
+        store.put("sid", value=self.sid)
 
+    def return_data(self):
+        return self.cbusname, self.ftolinfo, self.bus_stations, self.bus_stations_reverse, self.sid
 
 class BusRouter(BoxLayout):
     bus_name_label = ObjectProperty()
@@ -182,7 +198,7 @@ class BusRouter(BoxLayout):
     def return_pre(self):
         rootwidget = self.get_parent_window().children[0]
         rootwidget.clear_widgets()
-        rootwidget.add_widget(QueryBus())
+        rootwidget.add_widget(RootWidget())
 
 
 class BusDirection(ListItemButton):
@@ -197,25 +213,28 @@ class BusDirection(ListItemButton):
         if self.index == 1:
             render_listbutton(busrouter_widget.bus_station_listbutton, busrouter_widget.bus_stations_reverse)
             busrouter_widget.bus_direction = 1
+            store.put("bus_direction", vaule=1)
         elif self.index == 0:
             render_listbutton(busrouter_widget.bus_station_listbutton, busrouter_widget.bus_stations)
             busrouter_widget.bus_direction = 0
+            store.put("bus_direction", value=0)
 
 
 class BusStation(ListItemButton):
     def query_stop_info(self):
         self.rootwidget = self.get_parent_window().children[0]
         self.busrouter_widget = self.rootwidget.children[0]
-        direction = self.busrouter_widget.bus_direction
+        self.direction = self.busrouter_widget.bus_direction
         sid = self.busrouter_widget.sid
+        self.stop_station_name = self.text.split(".")[1]
         stopid = self.text.split(".")[0]
-        self.data = {"stoptype": direction, "stopid": stopid, "sid": sid}
+        self.data = {"stoptype": self.direction, "stopid": stopid, "sid": sid}
         headers = {'Content-type': 'application/x-www-form-urlencoded',
                    'Accept': 'text/plain'}
         req = UrlRequest(query_bus_stop, req_headers=headers, req_body=urllib.parse.urlencode(self.data),
                          on_success=self.parse_stop_info)
         self.rootwidget.clear_widgets()
-        self.rootwidget.remove_widget(Image(source="ezgif-2-8219edf39b-gif-png.zip"))
+        self.rootwidget.add_widget(Image(source="ezgif-2-8219edf39b-gif-png.zip"))
 
     def parse_stop_info(self, req, result):
         print(result)
@@ -229,17 +248,18 @@ class BusStation(ListItemButton):
             info = "公交车牌照:{0}\n距离本站间隔:{1}\n距离本站时间(分钟):{2}".format(self.bus_code, self.bus_distance,
                                                                   str(self.bus_time))
             self.rootwidget.add_widget(BusStopInfo(self.data, self.busrouter_widget.bus_name_label.text,
-                                                   self.busrouter_widget.bus_direction_name, info))
+                                                   self.busrouter_widget.ftolinfo[self.direction], info,
+                                                   self.stop_station_name))
 #            self.rootwidget.add_widget(ColorLabel(text=self.bus+self.bus_code+self.bus_distance+str(self.bus_time),
 #                                                  font_name=new_font))
         except:
             self.errorcode = json.loads(result)["error"]
             if self.errorcode == "-2":
-                print(dir(self.rootwidget))
                 self.rootwidget.clear_widgets()
                 info = "等待发车"
                 self.rootwidget.add_widget(BusStopInfo(self.data, self.busrouter_widget.bus_name_label.text,
-                                                       self.busrouter_widget.bus_direction_name, info))
+                                                       self.busrouter_widget.ftolinfo[self.direction], info,
+                                                       self.stop_station_name))
 #               self.rootwidget.add_widget(ColorLabel(text="等待发车", font_name=new_font))
 
 
@@ -251,11 +271,11 @@ class BusStopInfo(BoxLayout):
     stopinfowatch_button = ObjectProperty()
     stopinfo_label = ObjectProperty()
 
-    def __init__(self, data, bus_name, direction_name, info):
+    def __init__(self, data, bus_name, direction_name, info, stop_station_name):
         super().__init__()
         self.stopinfotitle_label.text = "公交到站信息"
         self.stopinfotitle_label.font_name = new_font
-        self.stopinfobusname_label.text = bus_name
+        self.stopinfobusname_label.text = bus_name + " " * 4 + stop_station_name
         self.stopinfobusname_label.font_name = new_font
         self.stopinfobusdirection_label.text = direction_name
         self.stopinfobusdirection_label.font_name = new_font
@@ -268,14 +288,170 @@ class BusStopInfo(BoxLayout):
         self.data = data
 
     def back_to_busrouter(self):
-#        print(self.get_parent_window().children.add_widget)
+        self.rootwidget = self.get_parent_window().children[0]
+        self.rootwidget.clear_widgets()
+        self.rootwidget.add_widget(BusRouter(store.get("cbusname")["value"], store.get("ftolinfo")["value"],
+                                             store.get("bus_stations")["value"],
+                                             store.get("bus_stations_reverse")["value"],
+                                             store.get("sid")["value"]))
         pass
+
     def add_to_watchlist(self):
-        print("watched")
+        with open("watchlist.json", "r") as f:
+            original_data = json.load(f)
+        storeinfo = self.stopinfobusname_label.text + " " * 4 + self.stopinfobusdirection_label.text.split(" ")[0]
+        original_data[storeinfo] = {"value": storeinfo, "data": self.data, "offset_station": "3", "offset_time": "5",
+                                    "watched": True, "start_time": "0000", "end_time": "2400"}
+        # watch_stations.put(storeinfo, value=storeinfo, data=self.data, offset_station="3", offset_time="5",
+        #                    watched=True, start_time="0000", end_time="2400")
+        with open("watchlist.json", "w") as f:
+            json.dump(original_data, f)
+        rootwidget = self.get_parent_window().children[0]
+        rootwidget.clear_widgets()
+        rootwidget.add_widget(WatchListWidget())
 
 
+class MenuButton(BoxLayout):
+    menu_query = ObjectProperty()
+    menu_watch = ObjectProperty()
+    menu_about = ObjectProperty()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Clock.schedule_once(self._finish_init)
+
+    def _finish_init(self, unknown):                      # 为什么需要两个参数？
+        self.menu_query.text = "查询界面"
+        self.menu_query.font_name = new_font
+        self.menu_watch.text = "监控站点列表"
+        self.menu_watch.font_name = new_font
+        self.menu_about.text = "关于"
+        self.menu_about.font_name = new_font
+
+    def to_query(self):
+        print("query")
+        rootwidget = self.get_parent_window().children[0]
+        rootwidget.clear_widgets()
+        rootwidget.add_widget(RootWidget())
+
+    def to_watch(self):
+        rootwidget = self.get_parent_window().children[0]
+        rootwidget.clear_widgets()
+        rootwidget.add_widget(WatchListWidget())
+
+    def to_about(self):
+        rootwidget = self.get_parent_window().children[0]
+        rootwidget.clear_widgets()
+        rootwidget.add_widget(AboutWidget())
 
 
+class AboutWidget(BoxLayout):
+    about_info = ObjectProperty()
+    update = ObjectProperty()
+
+    def __init__(self):
+        super().__init__()
+        self.about_info.text = "查询数据来自源上海发布\n作者：吕超\n邮箱：lc1923@live.cn\n"
+        self.about_info.font_name = new_font
+        self.update.text = "更新公交列表"
+        self.update.font_name = new_font
+
+    def update_buslist(self):
+        print("BusList updated")
+
+
+class WatchListWidget(BoxLayout):
+    watch_list_label = ObjectProperty()
+    station_watch_list = ObjectProperty()
+
+    def __init__(self):
+        super().__init__()
+        self.watch_list_label.text = "站点列表"
+        self.watch_list_label.font_name = new_font
+        # rootwidget = self.get_parent_window().children[0]
+        # watchlistwidget = rootwidget.children[0]
+        watch_stations = JsonStore("watchlist.json")                  # 重新获取json文件内容，否则新增站点不能即刻刷新出来
+        render_list = watch_stations.keys()
+        print(render_list)
+        for i in render_list:
+            print(watch_stations[i]["offset_station"])               # 添加或者删除的时候，值已经改变
+        render_listbutton(self.station_watch_list, render_list)
+
+
+class StationWatchList(ListItemButton):
+    def show_watch_station(self):
+        rootwidget = self.get_parent_window().children[0]
+        print(self.text)
+        rootwidget.clear_widgets()
+        rootwidget.add_widget(WatchedStation(self.text))
+
+
+class WatchedStation(BoxLayout):
+    watched_station_title_label = ObjectProperty()
+    watched_station_info_label = ObjectProperty()
+    watched_offset_station_label = ObjectProperty()
+    watched_offset_station_textinput = ObjectProperty()
+    watched_offset_time_label = ObjectProperty()
+    watched_offset_time_textinput = ObjectProperty()
+    check_option_label = ObjectProperty()
+    check_option_checkbox = ObjectProperty()
+    watched_time_label = ObjectProperty()
+    start_hour_textinput = ObjectProperty()
+    start_min_textinput = ObjectProperty()
+    end_hour_textinput = ObjectProperty()
+    end_min_textinput = ObjectProperty()
+    delete_button = ObjectProperty()
+
+    def __init__(self, station_name):
+        super().__init__()
+        # with open("watchlist.json", "r") as f:
+        #     data = json.load(f)
+        # print(station_name)
+        # print(data.keys())
+        # print(station_name in data.keys())
+        # print(self.watched_offset_station_textinput.text)
+        # print(data[station_name]["offset_station"])
+        # if self.watched_station_info_label.text in data.keys():
+        #     print(data[self.watched_station_info_label.text]["offset_station"])
+        #     self.watched_offset_station_textinput.text = data[station_name]["offset_station"]
+        self.jsonitem = station_name
+        watch_stations = JsonStore("watchlist.json")
+        self.watched_offset_station_textinput.text = watch_stations.get(station_name)["offset_station"]
+        self.watched_station_title_label.text = "监控站点"
+        self.watched_station_title_label.font_name = new_font
+        self.watched_station_info_label.text = station_name
+        self.watched_station_info_label.font_name = new_font
+        self.watched_offset_station_label.text = "距离站点数："
+        self.watched_offset_station_label.font_name = new_font
+        self.watched_offset_time_label.text = "距离站点时间(分钟)："
+        self.watched_offset_time_label.font_name = new_font
+        self.check_option_label.text = "是否监控："
+        self.check_option_label.font_name = new_font
+        self.watched_time_label.text = "监控时间："
+        self.watched_time_label.font_name = new_font
+        self.delete_button.text = "删除"
+        self.delete_button.font_name = new_font
+
+    def offset_station_input(self):
+        with open("watchlist.json", "r") as f:
+            original_data = json.load(f)
+        original_data[self.jsonitem]["offset_station"] = \
+            self.watched_offset_station_textinput.text
+        with open("watchlist.json", "w") as f:
+            json.dump(original_data, f)
+
+    def delete_station(self):
+#        watch_stations = JsonStore("watchlist.json")                  # 重新获取json文件内容，否则新增站点不能即刻刷新出来
+        with open("watchlist.json", "r") as f:
+            original_data = json.load(f)
+        del original_data[self.watched_station_info_label.text]
+        with open("watchlist.json", "w") as f:
+            json.dump(original_data, f)
+        # watch_stations.delete(self.watched_station_info_label.text)
+        rootwidget = self.get_parent_window().children[0]
+        rootwidget.clear_widgets()
+        rootwidget.add_widget(WatchListWidget())
+    pass
 
 
 
@@ -283,6 +459,6 @@ class ShanghaiBusApp(App):
     pass
 
 
-
 if __name__ == "__main__":
+    # store = JsonStore("info.json")
     ShanghaiBusApp().run()
