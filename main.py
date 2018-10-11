@@ -13,7 +13,7 @@ from xpinyin import Pinyin
 import json
 import urllib.parse
 from lxml import etree
-from kivy.clock import Clock
+from kivy.clock import Clock, mainthread
 
 
 store = JsonStore("info.json")
@@ -136,6 +136,7 @@ class BusesListButton(ListItemButton):
         params = urllib.parse.urlencode({"idnum": self.cbusname})
         req = UrlRequest(query_bus_sid, on_success=self.parse_bus_id, req_body=params, on_error=self.print_error,
                          method="POST", req_headers=headers, on_failure=self.print_failure)
+
     def print_error(self, req, error):
         try:                                                  # 回调函数中无法直接使用get_parent_window(), get_root_window()
             if error.strerror == 'getaddrinfo failed':        # 回调函数延时执行，可能主窗口没有被渲染， 返回值为None
@@ -144,7 +145,6 @@ class BusesListButton(ListItemButton):
         except:
             self.rootwidget.clear_widgets()
             self.rootwidget.add_widget(NetworkCheckScreen(str(error)))
-
 
     def parse_bus_id(self, req, result):
         self.sid = result.get("sid")
@@ -320,6 +320,8 @@ class BusStopInfo(BoxLayout):
         pass
 
     def add_to_watchlist(self):
+        with open("refresh_info.json", "r") as f:
+            refresh_data = json.load(f)
         with open("watchlist.json", "r") as f:
             original_data = json.load(f)
         storeinfo = self.stopinfobusname_label.text + " " * 4 + self.stopinfobusdirection_label.text.split(" ")[0]
@@ -327,6 +329,17 @@ class BusStopInfo(BoxLayout):
                                     "watched": True, "start_time": "0000", "end_time": "2400"}
         with open("watchlist.json", "w") as f:
             json.dump(original_data, f)
+        key = storeinfo
+        try:
+            station_offset = self.stopinfo_label.text.split("\n")[1].split(":")[1]
+            time_offset = self.stopinfo_label.text.split("\n")[2].split(":")[1]
+            value = "距离本站还有{0}站  距离本站还有:{1}分钟".format(station_offset, time_offset)
+        except:
+            value = self.stopinfo_label.text
+        finally:
+            refresh_data[key] = value
+            with open("refresh_info.json", "w") as f:
+                json.dump(refresh_data, f)
         rootwidget = self.get_parent_window().children[0]
         rootwidget.clear_widgets()
         rootwidget.add_widget(WatchListWidget())
@@ -387,22 +400,27 @@ class WatchListWidget(BoxLayout):
 
     def __init__(self):
         super().__init__()
+        Clock.schedule_once(self.render_widget)
+        Clock.schedule_interval(self.render_widget, 60)
+
+    def render_widget(self, dt):
         self.watch_list_label.text = "站点列表"
         self.watch_list_label.font_name = new_font
         watch_stations = JsonStore("watchlist.json")                  # 重新获取json文件内容，否则新增站点不能即刻刷新出来
-        render_list = watch_stations.keys()
-        print(render_list)
-        for i in render_list:
-            print(watch_stations[i]["offset_station"])               # 添加或者删除的时候，值已经改变
+        with open("refresh_info.json", "r") as f:
+            data = json.load(f)
+        print(data)
+        render_list = ["{0}{1}{2}".format(i, " "*4+"|"+" "*4, data[i]) for i in watch_stations.keys()]
+        # render_list = watch_stations.keys()
         render_listbutton(self.station_watch_list, render_list)
 
 
 class StationWatchList(ListItemButton):
     def show_watch_station(self):
         rootwidget = self.get_parent_window().children[0]
-        print(self.text)
+        text = self.text.split("|")[0].strip()
         rootwidget.clear_widgets()
-        rootwidget.add_widget(WatchedStation(self.text))
+        rootwidget.add_widget(WatchedStation(text))
 
 
 class WatchedStation(BoxLayout):
@@ -470,9 +488,49 @@ class WatchedStation(BoxLayout):
         rootwidget.add_widget(WatchListWidget())
 
 
+class WatchinfoRefresh():
+    name_req_dict = {}
+    req_result_dict = {}
+
+    def __init__(self):
+        Clock.schedule_once(self.watchinfo_refresh)
+        Clock.schedule_interval(self.watchinfo_refresh, 60)
+
+    def watchinfo_refresh(self, dt):
+        headers = {'Content-type': 'application/x-www-form-urlencoded',
+                   'Accept': 'text/plain'}
+        # dt函数定义需要的参数
+        with open("watchlist.json", "r") as f:
+            data = json.load(f)
+        for i in data.keys():
+            self.playload = {"stoptype": data[i]["data"]["stoptype"], "stopid": data[i]["data"]["stopid"],
+                        "sid": data[i]["data"]["sid"]}
+            req = UrlRequest(query_bus_stop, req_headers=headers, req_body=urllib.parse.urlencode(self.playload),
+                             on_success=self.parse_stop_info)
+            WatchinfoRefresh.name_req_dict[i] = req.name
+
+    def parse_stop_info(self, req, result):
+        try:
+            self.bus_distance = json.loads(result)[0]["stopdis"]
+            self.bus_time = int(json.loads(result)[0]["time"])//60
+            info = "距离本站还有{0}站  距离本站还有:{1}分钟".format(self.bus_distance, str(self.bus_time))
+        except:
+            self.errorcode = json.loads(result)["error"]
+            if self.errorcode == "-2":
+                info = "等待发车"
+        finally:
+            for i in WatchinfoRefresh.name_req_dict.keys():
+                if req.name == WatchinfoRefresh.name_req_dict[i]:
+                    WatchinfoRefresh.name_req_dict[i] = info
+            print(WatchinfoRefresh.name_req_dict)
+            with open("refresh_info.json", "w") as f:
+                json.dump(WatchinfoRefresh.name_req_dict, f)
+
+
 class ShanghaiBusApp(App):
     pass
 
 
 if __name__ == "__main__":
+    s = WatchinfoRefresh()
     ShanghaiBusApp().run()

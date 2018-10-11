@@ -24,3 +24,7 @@
 3. http --> https
 4. 公交线路查询网址变换 https://shanghaicity.openservice.kankanews.com/public/bus/mes/sid/{sid}?stoptype=1
 5. 首末班车 网页解析元素变化 //div[@class='upgoing cur ' or @class='upgoing ']/p/span/text()
+
+10/12/2018：
+1.监控站点，到站信息动态刷新
+2.刷新间隔60s

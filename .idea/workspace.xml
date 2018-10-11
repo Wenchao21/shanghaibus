@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c897b32d-78fd-42be-95e2-ca14c793ead2" name="Default" comment="" />
+    <list default="true" id="c897b32d-78fd-42be-95e2-ca14c793ead2" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/bus.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/bus.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/info.json" beforeDir="false" afterPath="$PROJECT_DIR$/info.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/watchlist.json" beforeDir="false" afterPath="$PROJECT_DIR$/watchlist.json" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/shanghaibus$main.coverage" NAME="main Coverage Results" MODIFIED="1536329372392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/bus$main.coverage" NAME="main Coverage Results" MODIFIED="1536169553809" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
-  <component name="CreatePatchCommitExecutor">
-    <option name="PATCH_PATH" value="" />
-  </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FUSProjectUsageTrigger">
     <session id="-367436151">
       <usages-collector id="statistics.lifecycle.project">
@@ -57,36 +58,48 @@
     <session id="2134522129">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
+          <entry key="project.closed" value="7" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.open.time.7" value="5" />
+          <entry key="project.open.time.7" value="6" />
           <entry key="project.open.time.8" value="1" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="8" />
+          <entry key="project.opened" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="kv" value="3941" />
-          <entry key="py" value="4576" />
+          <entry key="py" value="6317" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="3941" />
-          <entry key="Python" value="4576" />
+          <entry key="Python" value="6317" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="json" value="1" />
           <entry key="kv" value="1" />
-          <entry key="py" value="22" />
+          <entry key="py" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+          <entry key="JSON" value="1" />
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="22" />
+          <entry key="Python" value="24" />
+        </counts>
+      </usages-collector>
+    </session>
+    <session id="1012655189">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="2" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.1" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
     </session>
@@ -96,34 +109,47 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5280">
-              <caret line="165" column="101" selection-start-line="165" selection-start-column="38" selection-end-line="165" selection-end-column="101" />
+            <state relative-caret-position="113">
+              <caret line="402" column="47" lean-forward="true" selection-start-line="402" selection-start-column="47" selection-end-line="402" selection-end-column="47" />
               <folding>
                 <element signature="e#25#36#0" expanded="true" />
+                <marker date="1539283940184" expanded="true" signature="20875:20941" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://C:/python3.6/Lib/json/__init__.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/watchlist.json">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/storage/jsonstore.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="628">
-              <caret line="347" column="0" selection-start-line="347" selection-start-column="0" selection-end-line="347" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="928">
+              <caret line="62" selection-start-line="62" selection-end-line="62" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="shanghaibus.kv" pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/clock.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="9136">
+              <caret line="580" selection-start-line="580" selection-end-line="580" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/shanghaibus.kv">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="143" column="0" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="3728">
+              <caret line="233" selection-start-line="233" selection-end-line="233" />
             </state>
           </provider>
         </entry>
@@ -177,70 +203,38 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="-241" />
-    <option name="y" value="269" />
-    <option name="width" value="2911" />
-    <option name="height" value="1996" />
-  </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
-    <OptionsSetting value="true" id="Add" />
-    <OptionsSetting value="true" id="Remove" />
-    <OptionsSetting value="true" id="Checkout" />
-    <OptionsSetting value="true" id="Update" />
-    <OptionsSetting value="true" id="Status" />
-    <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
-    <ConfirmationsSetting value="0" id="Remove" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-59" />
+    <option name="width" value="1946" />
+    <option name="height" value="1035" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shanghaibus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shanghaibus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="shanghaibus" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
+          <expand>
+            <path>
+              <item name="shanghaibus" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shanghaibus" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/venv/Scripts/python.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -254,171 +248,58 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
-    <configuration default="false" name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager">
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <gulpfile />
+      <tasks />
+      <arguments />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="bus" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\python3.6\python.exe" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="bus" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="bus" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Attests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="bus" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Doctests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="bus" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Nosetests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="bus" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
+      <module name="bus" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs />
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="bus" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="false" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
-      <method />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
     </configuration>
-    <configuration default="true" type="tests" factoryName="py.test">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="bus" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="testToRun" value="" />
-      <option name="keywords" value="" />
-      <option name="params" value="" />
-      <option name="USE_PARAM" value="false" />
-      <option name="USE_KEYWORD" value="false" />
-      <method />
-    </configuration>
-    <list size="1">
-      <item index="0" class="java.lang.String" itemvalue="Python.main" />
-    </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Python.main" />
+      <list>
+        <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -443,50 +324,48 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-241" y="269" width="2911" height="1996" extended-state="0" />
+    <frame x="-7" y="-7" width="1295" height="695" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11943958" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936507" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936507" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936507" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2505669" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936507" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37301588" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49867374" visible="true" weight="0.11709602" />
+      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info id="Favorites" order="2" sideWeight="0.50132626" side_tool="true" weight="0.19395867" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32991454" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49726775" visible="true" weight="0.22393163" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4923077" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32740214" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32740214" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5027322" side_tool="true" weight="0.3008547" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32907802" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Data View" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="right" id="SciView" order="5" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USER_GROUPS">
-      <collection />
-    </option>
-    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-      <collection />
-    </option>
-  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <option name="time" value="10" />
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="PythonConfigurationType">
-        <watch expression="self.sid" />
-        <watch expression="result" />
+        <watch expression="self.busrouter_widget" />
+        <watch expression="busrouterobject" />
+        <watch expression="busrouterobject" />
+        <watch expression="self" />
+        <watch expression="self.watched_station_info_label.text" />
+        <watch expression="self.watched_station_info_label" />
       </configuration>
     </watches-manager>
   </component>
@@ -500,78 +379,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#25#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shanghaibus.kv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10048">
-          <caret line="314" column="11" selection-start-line="314" selection-start-column="11" selection-end-line="314" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#25#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shanghaibus.kv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10048">
-          <caret line="314" column="11" selection-start-line="314" selection-start-column="11" selection-end-line="314" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#25#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shanghaibus.kv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7776">
-          <caret line="243" column="28" selection-start-line="243" selection-start-column="28" selection-end-line="243" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#25#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shanghaibus.kv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7776">
-          <caret line="243" column="28" selection-start-line="243" selection-start-column="28" selection-end-line="243" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/bs4/builder/_htmlparser.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/kivy/core/text/__init__.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/kivy/uix/layout.py" />
@@ -589,128 +396,181 @@
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/kivy/lang/builder.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/types.py" />
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/kivy/network/urlrequest.py" />
-    <entry file="file://C:/python3.7/Lib/genericpath.py" />
-    <entry file="file://C:/python3.7/Lib/_bootlocale.py" />
-    <entry file="file://C:/python3.7/Lib/codecs.py" />
-    <entry file="file://C:/python3.7/Lib/json/decoder.py" />
-    <entry file="file://C:/python3.7/Lib/json/__init__.py" />
+    <entry file="file://C:/python3.7/Lib/genericpath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/python3.7/Lib/_bootlocale.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/python3.7/Lib/codecs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="267" selection-start-line="267" selection-end-line="267" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/python3.7/Lib/json/decoder.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="340" selection-start-line="340" selection-end-line="340" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/python3.7/Lib/json/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="347" selection-start-line="347" selection-end-line="347" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/storage/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
-          <caret line="133" column="0" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
+          <caret line="133" selection-start-line="133" selection-end-line="133" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/storage/jsonstore.py">
+    <entry file="file://C:/python3.7/Lib/configparser.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <caret line="609" selection-start-line="609" selection-end-line="609" />
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/python3.7/Lib/configparser.py" />
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="373" column="0" selection-start-line="373" selection-start-column="0" selection-end-line="373" selection-end-column="0" />
+          <caret line="373" selection-start-line="373" selection-end-line="373" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/factory.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+          <caret line="93" selection-start-line="93" selection-end-line="93" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/weakmethod.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="212">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
-          <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+          <caret line="122" selection-start-line="122" selection-end-line="122" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/context.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="172">
-          <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
+          <caret line="97" selection-start-line="97" selection-end-line="97" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/uix/widget.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="350" column="0" selection-start-line="350" selection-start-column="0" selection-end-line="350" selection-end-column="0" />
+          <caret line="350" selection-start-line="350" selection-end-line="350" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/uix/layout.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="212">
-          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+          <caret line="75" selection-start-line="75" selection-end-line="75" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/uix/boxlayout.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
-          <caret line="139" column="0" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
+          <caret line="139" selection-start-line="139" selection-end-line="139" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/lang/builder.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="300" column="0" selection-start-line="300" selection-start-column="0" selection-end-line="300" selection-end-column="0" />
+          <caret line="300" selection-start-line="300" selection-end-line="300" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/app.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="798" column="0" selection-start-line="798" selection-start-column="0" selection-end-line="798" selection-end-column="0" />
+          <caret line="798" selection-start-line="798" selection-end-line="798" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/logger.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="127">
-          <caret line="305" column="0" selection-start-line="305" selection-start-column="0" selection-end-line="305" selection-end-column="0" />
+          <caret line="305" selection-start-line="305" selection-end-line="305" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/storage/jsonstore.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="928">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/kivy/clock.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9136">
+          <caret line="580" selection-start-line="580" selection-end-line="580" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/shanghaibus.kv">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="143" column="0" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="3728">
+          <caret line="233" selection-start-line="233" selection-end-line="233" />
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/python3.6/Lib/json/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="628">
-          <caret line="347" column="0" selection-start-line="347" selection-start-column="0" selection-end-line="347" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/watchlist.json">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5280">
-          <caret line="165" column="101" selection-start-line="165" selection-start-column="38" selection-end-line="165" selection-end-column="101" />
+        <state relative-caret-position="113">
+          <caret line="402" column="47" lean-forward="true" selection-start-line="402" selection-start-column="47" selection-end-line="402" selection-end-column="47" />
           <folding>
             <element signature="e#25#36#0" expanded="true" />
+            <marker date="1539283940184" expanded="true" signature="20875:20941" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
