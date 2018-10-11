@@ -6,7 +6,6 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.listview import ListItemButton
-from kivy.uix.image import Image
 from kivy.properties import ObjectProperty
 from kivy.network.urlrequest import UrlRequest
 from bs4 import BeautifulSoup
@@ -19,10 +18,10 @@ from kivy.clock import Clock
 
 store = JsonStore("info.json")
 watch_stations = JsonStore("watchlist.json")
-query_router_url = 'http://shanghaicity.openservice.kankanews.com/public/bus'
-query_bus_sid = "http://shanghaicity.openservice.kankanews.com/public/bus/get"
-query_bus_router = "http://shanghaicity.openservice.kankanews.com/public/bus/mes/sid/"
-query_bus_stop = "http://shanghaicity.openservice.kankanews.com/public/bus/Getstop"
+query_router_url = 'https://shanghaicity.openservice.kankanews.com/public/bus'
+query_bus_sid = "https://shanghaicity.openservice.kankanews.com/public/bus/get"
+query_bus_router = "https://shanghaicity.openservice.kankanews.com/public/bus/mes/sid/"
+query_bus_stop = "https://shanghaicity.openservice.kankanews.com/public/bus/Getstop"
 
 kivy.resources.resource_add_path(r"C:\Windows\Fonts")
 new_font = kivy.resources.resource_find("msyhl.ttc")     # Android DroidSansFallback.ttf   Windows:
@@ -92,6 +91,28 @@ class ColorLabel(Label):
     pass
 
 
+class LoadingScreen(BoxLayout):
+    pass
+
+
+class NetworkCheckScreen(BoxLayout):
+    network_check_label = ObjectProperty()
+
+    def __init__(self, info):
+        super().__init__()
+        self.network_check_label.text = info
+        self.network_check_label.font_name = new_font
+
+
+class ErrorScreen(BoxLayout):
+    error_info_label = ObjectProperty()
+
+    def __init__(self, info):
+        super().__init__()
+        self.error_info_label.text = info
+        self.error_info_label.font_name = new_font
+
+
 class BusesListButton(ListItemButton):
 
     def __init__(self, **kwargs):
@@ -107,7 +128,7 @@ class BusesListButton(ListItemButton):
         self.rootwidget = get_root_widget(self)      # 在主窗口确定被渲染的情况下，把其存放在实例变量中，供特定使用
         self.get_bus_router()
         self.rootwidget.clear_widgets()
-        self.rootwidget.add_widget(Image(source="ezgif-2-8219edf39b-gif-png.zip"))
+        self.rootwidget.add_widget(LoadingScreen())
 
     def get_bus_router(self):
         headers = {'Content-type': 'application/x-www-form-urlencoded',
@@ -115,30 +136,35 @@ class BusesListButton(ListItemButton):
         params = urllib.parse.urlencode({"idnum": self.cbusname})
         req = UrlRequest(query_bus_sid, on_success=self.parse_bus_id, req_body=params, on_error=self.print_error,
                          method="POST", req_headers=headers, on_failure=self.print_failure)
-
-    def print_error(self, req, error):                    # 回调函数中无法直接使用get_parent_window(), get_root_window()
-        if error.strerror == 'getaddrinfo failed':        # 回调函数延时执行，可能主窗口没有被渲染， 返回值为None
+    def print_error(self, req, error):
+        try:                                                  # 回调函数中无法直接使用get_parent_window(), get_root_window()
+            if error.strerror == 'getaddrinfo failed':        # 回调函数延时执行，可能主窗口没有被渲染， 返回值为None
+                self.rootwidget.clear_widgets()
+                self.rootwidget.add_widget(NetworkCheckScreen("请检查你的网络"))
+        except:
             self.rootwidget.clear_widgets()
-            self.rootwidget.add_widget(Label(text="请检查你的网络", font_name=new_font))
+            self.rootwidget.add_widget(NetworkCheckScreen(str(error)))
+
 
     def parse_bus_id(self, req, result):
-        self.sid = json.loads(result)["sid"]
+        self.sid = result.get("sid")
         for i in [0, 1]:
-            url = "{0}/{1}/stoptype/{2}".format(query_bus_router, self.sid, i)
+            url = "{0}/{1}?stoptype={2}".format(query_bus_router, self.sid, i)
             if i == 0:
                 request = UrlRequest(url, on_success=self.parse_bus_router, on_error=self.print_error,
                                      on_failure=self.print_failure)
             else:
-                request = UrlRequest(url, on_success=self.parse_bus_router_reverse)
+                request = UrlRequest(url, on_success=self.parse_bus_router_reverse, on_error=self.print_error,
+                                     on_failure=self.print_failure)
 
     def print_failure(self, req, result):
         self.rootwidget.clear_widgets()
-        self.rootwidget.add_widget(Label(text=str(result), font_name=new_font))
+        self.rootwidget.add_widget(ErrorScreen(str(result)))
 
     def parse_bus_router(self, req, result):
         selector = etree.HTML(result)
-        ftolstation = selector.xpath("//div[@class='upgoing cur' or @class='downgoing ']/p/span/text()")
-        ftoltime = selector.xpath("//div[@class='upgoing cur' or @class='downgoing ']/div/em/text()")
+        ftolstation = selector.xpath("//div[@class='upgoing cur ' or @class='upgoing ']/p/span/text()")
+        ftoltime = selector.xpath("//div[@class='upgoing cur ' or @class='upgoing ']/div/em/text()")
         print("ftol", ftolstation, ftoltime)
         for i in [0, 2]:
             self.ftolinfo.append("{0}-->{1}    首班车:{2}  末班车{3}".format(ftolstation[i], ftolstation[i+1],
@@ -170,6 +196,7 @@ class BusesListButton(ListItemButton):
 
     def return_data(self):
         return self.cbusname, self.ftolinfo, self.bus_stations, self.bus_stations_reverse, self.sid
+
 
 class BusRouter(BoxLayout):
     bus_name_label = ObjectProperty()
@@ -204,7 +231,6 @@ class BusRouter(BoxLayout):
 class BusDirection(ListItemButton):
     def __init__(self, **kwargs):
         super(BusDirection, self).__init__(**kwargs)
- #       self.get_parent_window().children[0].children[0].bus_direction_name = self.text
 
     def change_bus_direction(self):
         rootwidget = self.get_parent_window().children[0]
@@ -234,7 +260,7 @@ class BusStation(ListItemButton):
         req = UrlRequest(query_bus_stop, req_headers=headers, req_body=urllib.parse.urlencode(self.data),
                          on_success=self.parse_stop_info)
         self.rootwidget.clear_widgets()
-        self.rootwidget.add_widget(Image(source="ezgif-2-8219edf39b-gif-png.zip"))
+        self.rootwidget.add_widget(LoadingScreen())
 
     def parse_stop_info(self, req, result):
         print(result)
@@ -250,8 +276,6 @@ class BusStation(ListItemButton):
             self.rootwidget.add_widget(BusStopInfo(self.data, self.busrouter_widget.bus_name_label.text,
                                                    self.busrouter_widget.ftolinfo[self.direction], info,
                                                    self.stop_station_name))
-#            self.rootwidget.add_widget(ColorLabel(text=self.bus+self.bus_code+self.bus_distance+str(self.bus_time),
-#                                                  font_name=new_font))
         except:
             self.errorcode = json.loads(result)["error"]
             if self.errorcode == "-2":
@@ -260,7 +284,6 @@ class BusStation(ListItemButton):
                 self.rootwidget.add_widget(BusStopInfo(self.data, self.busrouter_widget.bus_name_label.text,
                                                        self.busrouter_widget.ftolinfo[self.direction], info,
                                                        self.stop_station_name))
-#               self.rootwidget.add_widget(ColorLabel(text="等待发车", font_name=new_font))
 
 
 class BusStopInfo(BoxLayout):
@@ -302,8 +325,6 @@ class BusStopInfo(BoxLayout):
         storeinfo = self.stopinfobusname_label.text + " " * 4 + self.stopinfobusdirection_label.text.split(" ")[0]
         original_data[storeinfo] = {"value": storeinfo, "data": self.data, "offset_station": "3", "offset_time": "5",
                                     "watched": True, "start_time": "0000", "end_time": "2400"}
-        # watch_stations.put(storeinfo, value=storeinfo, data=self.data, offset_station="3", offset_time="5",
-        #                    watched=True, start_time="0000", end_time="2400")
         with open("watchlist.json", "w") as f:
             json.dump(original_data, f)
         rootwidget = self.get_parent_window().children[0]
@@ -368,8 +389,6 @@ class WatchListWidget(BoxLayout):
         super().__init__()
         self.watch_list_label.text = "站点列表"
         self.watch_list_label.font_name = new_font
-        # rootwidget = self.get_parent_window().children[0]
-        # watchlistwidget = rootwidget.children[0]
         watch_stations = JsonStore("watchlist.json")                  # 重新获取json文件内容，否则新增站点不能即刻刷新出来
         render_list = watch_stations.keys()
         print(render_list)
@@ -441,18 +460,14 @@ class WatchedStation(BoxLayout):
             json.dump(original_data, f)
 
     def delete_station(self):
-#        watch_stations = JsonStore("watchlist.json")                  # 重新获取json文件内容，否则新增站点不能即刻刷新出来
         with open("watchlist.json", "r") as f:
             original_data = json.load(f)
         del original_data[self.watched_station_info_label.text]
         with open("watchlist.json", "w") as f:
             json.dump(original_data, f)
-        # watch_stations.delete(self.watched_station_info_label.text)
         rootwidget = self.get_parent_window().children[0]
         rootwidget.clear_widgets()
         rootwidget.add_widget(WatchListWidget())
-    pass
-
 
 
 class ShanghaiBusApp(App):
@@ -460,5 +475,4 @@ class ShanghaiBusApp(App):
 
 
 if __name__ == "__main__":
-    # store = JsonStore("info.json")
     ShanghaiBusApp().run()

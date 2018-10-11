@@ -17,3 +17,10 @@
 3. 停站信息没有修改完成，刚刚实现到站数修改
 4. 监控部分逻辑功能未完成
 5. 监控信息修改界面在大窗口时，上部分有黑屏
+
+10/11/2018:
+上个版本中1，2，5已经修复
+上海发布网络接口发生变换
+http --> https
+公交线路查询网址变换 https://shanghaicity.openservice.kankanews.com/public/bus/mes/sid/{sid}?stoptype=1
+首末班车 网页解析元素变化 //div[@class='upgoing cur ' or @class='upgoing ']/p/span/text()

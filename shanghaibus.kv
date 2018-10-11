@@ -194,6 +194,26 @@ RootWidget
         text: "test"
     MenuButton:
 
+<LoadingScreen>:
+    orientation: "vertical"
+    Image:
+        source: "ezgif-2-8219edf39b-gif-png.zip"
+    MenuButton:
+
+<NetworkCheckScreen>:
+    network_check_label: network_check_label
+    orientation: "vertical"
+    Label:
+        id: network_check_label
+    MenuButton:
+
+<ErrorScreen>:
+    error_info_label: error_info_label
+    orientation: "vertical"
+    Label:
+        id: error_info_label
+    MenuButton:
+
 <WatchedStation>:
     watched_station_title_label: watched_station_title_label
     watched_station_info_label: watched_station_info_label
@@ -293,8 +313,6 @@ RootWidget
             size_hint_x: 8
             text: "00"
     Widget:
-        size_hint_y: None
-        height: "360dp"
     Button:
         size_hint_y: None
         height: "40dp"
