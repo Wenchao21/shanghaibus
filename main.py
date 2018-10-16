@@ -13,7 +13,8 @@ from xpinyin import Pinyin
 import json
 import urllib.parse
 from lxml import etree
-from kivy.clock import Clock, mainthread
+from kivy.clock import Clock
+import time
 
 
 store = JsonStore("info.json")
@@ -400,17 +401,32 @@ class WatchListWidget(BoxLayout):
 
     def __init__(self):
         super().__init__()
+        WatchinfoRefresh(time=1)
         Clock.schedule_once(self.render_widget)
-        Clock.schedule_interval(self.render_widget, 60)
+        Clock.schedule_interval(self.render_widget, 5)
+
+    def refresh_file_change(self):
+        with open("refresh_info.json", "r") as f:
+            origin_data = json.load(f)
+        time.sleep(5)
+        with open("refresh_info.json", "r") as f:
+            new_data = json.load(f)
+        if origin_data != new_data:
+            Clock.schedule_once(self.render_widget)
 
     def render_widget(self, dt):
+        render_list = []
         self.watch_list_label.text = "站点列表"
         self.watch_list_label.font_name = new_font
         watch_stations = JsonStore("watchlist.json")                  # 重新获取json文件内容，否则新增站点不能即刻刷新出来
         with open("refresh_info.json", "r") as f:
             data = json.load(f)
+        print("+++++++++++++++++++++++++++++++++++++")
         print(data)
-        render_list = ["{0}{1}{2}".format(i, " "*4+"|"+" "*4, data[i]) for i in watch_stations.keys()]
+        for i in watch_stations.keys():
+            if "Thread" in data[i]:
+                data[i] = "数据查询中..."
+            render_list.append("{0}{1}{2}".format(i, " "*4+"|"+" "*4, data[i]))
         # render_list = watch_stations.keys()
         render_listbutton(self.station_watch_list, render_list)
 
@@ -492,9 +508,18 @@ class WatchinfoRefresh():
     name_req_dict = {}
     req_result_dict = {}
 
-    def __init__(self):
-        Clock.schedule_once(self.watchinfo_refresh)
+    def __init__(self, time=60):
+        self.time = time
+        if self.time == 60:
+            self.refresh_cycle()
+        else:
+            self.refresh_once()
+
+    def refresh_cycle(self):
         Clock.schedule_interval(self.watchinfo_refresh, 60)
+
+    def refresh_once(self):
+        Clock.schedule_once(self.watchinfo_refresh)
 
     def watchinfo_refresh(self, dt):
         headers = {'Content-type': 'application/x-www-form-urlencoded',
@@ -525,6 +550,7 @@ class WatchinfoRefresh():
             print(WatchinfoRefresh.name_req_dict)
             with open("refresh_info.json", "w") as f:
                 json.dump(WatchinfoRefresh.name_req_dict, f)
+            list_refresh = WatchListWidget()
 
 
 class ShanghaiBusApp(App):
@@ -533,4 +559,5 @@ class ShanghaiBusApp(App):
 
 if __name__ == "__main__":
     s = WatchinfoRefresh()
+    s.refresh_cycle()
     ShanghaiBusApp().run()
