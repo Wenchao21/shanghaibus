@@ -15,6 +15,7 @@ import urllib.parse
 from lxml import etree
 from kivy.clock import Clock
 import time
+import os
 
 
 store = JsonStore("info.json")
@@ -326,8 +327,13 @@ class BusStopInfo(BoxLayout):
         with open("watchlist.json", "r") as f:
             original_data = json.load(f)
         storeinfo = self.stopinfobusname_label.text + " " * 4 + self.stopinfobusdirection_label.text.split(" ")[0]
-        original_data[storeinfo] = {"value": storeinfo, "data": self.data, "offset_station": "3", "offset_time": "5",
-                                    "watched": True, "start_time": "0000", "end_time": "2400"}
+        print(refresh_data)
+        print(storeinfo)
+        print(original_data)
+        print(type(original_data))
+        original_data[storeinfo] = {"value":storeinfo, "data":self.data, "offset_station":"3", "offset_time":"5",
+                                    "watched":True, "start_time_hour":"00", "start_time_min":"00",
+                                    "end_time_hour":"24", "end_time_min":"00"}
         with open("watchlist.json", "w") as f:
             json.dump(original_data, f)
         key = storeinfo
@@ -405,14 +411,14 @@ class WatchListWidget(BoxLayout):
         Clock.schedule_once(self.render_widget)
         Clock.schedule_interval(self.render_widget, 5)
 
-    def refresh_file_change(self):
-        with open("refresh_info.json", "r") as f:
-            origin_data = json.load(f)
-        time.sleep(5)
-        with open("refresh_info.json", "r") as f:
-            new_data = json.load(f)
-        if origin_data != new_data:
-            Clock.schedule_once(self.render_widget)
+    # def refresh_file_change(self):
+    #     with open("refresh_info.json", "r") as f:
+    #         origin_data = json.load(f)
+    #     time.sleep(5)
+    #     with open("refresh_info.json", "r") as f:
+    #         new_data = json.load(f)
+    #     if origin_data != new_data:
+    #         Clock.schedule_once(self.render_widget)
 
     def render_widget(self, dt):
         render_list = []
@@ -423,11 +429,15 @@ class WatchListWidget(BoxLayout):
             data = json.load(f)
         print("+++++++++++++++++++++++++++++++++++++")
         print(data)
-        for i in watch_stations.keys():
-            if "Thread" in data[i]:
-                data[i] = "数据查询中..."
-            render_list.append("{0}{1}{2}".format(i, " "*4+"|"+" "*4, data[i]))
-        # render_list = watch_stations.keys()
+        try:
+            for i in watch_stations.keys():
+                if "Thread" in data[i]:
+                    data[i] = "数据查询中..."
+                render_list.append("{0}{1}{2}".format(i, " "*4+"|"+" "*4, data[i]))
+            # render_list = watch_stations.keys()
+        except AttributeError as e:
+            print(e)
+            pass
         render_listbutton(self.station_watch_list, render_list)
 
 
@@ -470,6 +480,12 @@ class WatchedStation(BoxLayout):
         self.jsonitem = station_name
         watch_stations = JsonStore("watchlist.json")
         self.watched_offset_station_textinput.text = watch_stations.get(station_name)["offset_station"]
+        self.watched_offset_time_textinput.text = watch_stations.get(station_name)["offset_time"]
+        self.check_option_checkbox.active = watch_stations.get(station_name)["watched"]
+        self.start_hour_textinput.text = watch_stations.get(station_name)["start_time_hour"]
+        self.start_min_textinput.text = watch_stations.get(station_name)["start_time_min"]
+        self.end_hour_textinput.text = watch_stations.get(station_name)["end_time_hour"]
+        self.end_min_textinput.text = watch_stations.get(station_name)["end_time_min"]
         self.watched_station_title_label.text = "监控站点"
         self.watched_station_title_label.font_name = new_font
         self.watched_station_info_label.text = station_name
@@ -490,6 +506,54 @@ class WatchedStation(BoxLayout):
             original_data = json.load(f)
         original_data[self.jsonitem]["offset_station"] = \
             self.watched_offset_station_textinput.text
+        with open("watchlist.json", "w") as f:
+            json.dump(original_data, f)
+
+    def offset_time_input(self):
+        with open("watchlist.json", "r") as f:
+            original_data = json.load(f)
+        original_data[self.jsonitem]["offset_time"] = \
+            self.watched_offset_time_textinput.text
+        with open("watchlist.json", "w") as f:
+            json.dump(original_data, f)
+
+    def watched_or_not(self):
+        with open("watchlist.json", "r") as f:
+            original_data = json.load(f)
+        original_data[self.jsonitem]["watched"] = \
+            self.check_option_checkbox.active
+        with open("watchlist.json", "w") as f:
+            json.dump(original_data, f)
+
+    def start_hour(self):
+        with open("watchlist.json", "r") as f:
+            original_data = json.load(f)
+        original_data[self.jsonitem]["start_time_hour"] = \
+            self.start_hour_textinput.text
+        with open("watchlist.json", "w") as f:
+            json.dump(original_data, f)
+
+    def start_min(self):
+        with open("watchlist.json", "r") as f:
+            original_data = json.load(f)
+        original_data[self.jsonitem]["start_time_min"] = \
+            self.start_min_textinput.text
+        with open("watchlist.json", "w") as f:
+            json.dump(original_data, f)
+
+    def end_hour(self):
+        with open("watchlist.json", "r") as f:
+            original_data = json.load(f)
+        original_data[self.jsonitem]["end_time_hour"] = \
+            self.end_hour_textinput.text
+        with open("watchlist.json", "w") as f:
+            json.dump(original_data, f)
+
+    def end_min(self):
+        with open("watchlist.json", "r") as f:
+            original_data = json.load(f)
+        original_data[self.jsonitem]["end_time_min"] = \
+            self.end_min_textinput.text
         with open("watchlist.json", "w") as f:
             json.dump(original_data, f)
 
@@ -525,14 +589,23 @@ class WatchinfoRefresh():
         headers = {'Content-type': 'application/x-www-form-urlencoded',
                    'Accept': 'text/plain'}
         # dt函数定义需要的参数
+        if not os.path.exists("watchlist.json"):
+            with open("watchlist.json", "w") as f:
+                init_data = {}
+                json.dump(init_data, f)
         with open("watchlist.json", "r") as f:
             data = json.load(f)
-        for i in data.keys():
-            self.playload = {"stoptype": data[i]["data"]["stoptype"], "stopid": data[i]["data"]["stopid"],
-                        "sid": data[i]["data"]["sid"]}
-            req = UrlRequest(query_bus_stop, req_headers=headers, req_body=urllib.parse.urlencode(self.playload),
-                             on_success=self.parse_stop_info)
-            WatchinfoRefresh.name_req_dict[i] = req.name
+        try:
+            for i in data.keys():
+                self.playload = {"stoptype": data[i]["data"]["stoptype"], "stopid": data[i]["data"]["stopid"],
+                            "sid": data[i]["data"]["sid"]}
+                req = UrlRequest(query_bus_stop, req_headers=headers, req_body=urllib.parse.urlencode(self.playload),
+                                 on_success=self.parse_stop_info)
+                WatchinfoRefresh.name_req_dict[i] = req.name
+        except AttributeError as e:
+            print(e)
+            pass
+
 
     def parse_stop_info(self, req, result):
         try:
@@ -550,7 +623,7 @@ class WatchinfoRefresh():
             print(WatchinfoRefresh.name_req_dict)
             with open("refresh_info.json", "w") as f:
                 json.dump(WatchinfoRefresh.name_req_dict, f)
-            list_refresh = WatchListWidget()
+
 
 
 class ShanghaiBusApp(App):
@@ -559,5 +632,6 @@ class ShanghaiBusApp(App):
 
 if __name__ == "__main__":
     s = WatchinfoRefresh()
+    s.refresh_once()
     s.refresh_cycle()
     ShanghaiBusApp().run()

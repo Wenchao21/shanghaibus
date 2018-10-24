@@ -271,6 +271,7 @@ RootWidget
             id: watched_offset_time_textinput
             multiline: False
             size_hint_x: 8
+            on_text: root.offset_time_input()
         Label:
             id: check_option_label
             size_hint_x: 10
@@ -278,6 +279,7 @@ RootWidget
             id: check_option_checkbox
             size_hint_x: 3
             active: True
+            on_active: root.watched_or_not()
     Widget:
         size_hint_y: None
         height: "1dp"
@@ -291,6 +293,7 @@ RootWidget
             id: start_hour_textinput
             size_hint_x: 8
             text: "00"
+            on_text: root.start_hour()
         ColorLabel:
             size_hint_x: 2
             text: ":"
@@ -298,6 +301,7 @@ RootWidget
             id: start_min_textinput
             size_hint_x: 8
             text: "00"
+            on_text: root.start_min()
         ColorLabel:
             size_hint_x: 4
             text: "-- --"
@@ -305,6 +309,7 @@ RootWidget
             id: end_hour_textinput
             size_hint_x: 8
             text: "24"
+            on_text: root.end_hour()
         ColorLabel:
             size_hint_x: 2
             text: ":"
@@ -312,6 +317,7 @@ RootWidget
             id: end_min_textinput
             size_hint_x: 8
             text: "00"
+            on_text: root.end_min()
     Widget:
     Button:
         size_hint_y: None
