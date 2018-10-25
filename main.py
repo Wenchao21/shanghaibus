@@ -6,6 +6,7 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.listview import ListItemButton
+from kivy.core.audio import SoundLoader
 from kivy.properties import ObjectProperty
 from kivy.network.urlrequest import UrlRequest
 from bs4 import BeautifulSoup
@@ -16,6 +17,7 @@ from lxml import etree
 from kivy.clock import Clock
 import time
 import os
+import re
 
 
 store = JsonStore("info.json")
@@ -411,15 +413,6 @@ class WatchListWidget(BoxLayout):
         Clock.schedule_once(self.render_widget)
         Clock.schedule_interval(self.render_widget, 5)
 
-    # def refresh_file_change(self):
-    #     with open("refresh_info.json", "r") as f:
-    #         origin_data = json.load(f)
-    #     time.sleep(5)
-    #     with open("refresh_info.json", "r") as f:
-    #         new_data = json.load(f)
-    #     if origin_data != new_data:
-    #         Clock.schedule_once(self.render_widget)
-
     def render_widget(self, dt):
         render_list = []
         self.watch_list_label.text = "站点列表"
@@ -434,7 +427,6 @@ class WatchListWidget(BoxLayout):
                 if "Thread" in data[i]:
                     data[i] = "数据查询中..."
                 render_list.append("{0}{1}{2}".format(i, " "*4+"|"+" "*4, data[i]))
-            # render_list = watch_stations.keys()
         except AttributeError as e:
             print(e)
             pass
@@ -467,16 +459,6 @@ class WatchedStation(BoxLayout):
 
     def __init__(self, station_name):
         super().__init__()
-        # with open("watchlist.json", "r") as f:
-        #     data = json.load(f)
-        # print(station_name)
-        # print(data.keys())
-        # print(station_name in data.keys())
-        # print(self.watched_offset_station_textinput.text)
-        # print(data[station_name]["offset_station"])
-        # if self.watched_station_info_label.text in data.keys():
-        #     print(data[self.watched_station_info_label.text]["offset_station"])
-        #     self.watched_offset_station_textinput.text = data[station_name]["offset_station"]
         self.jsonitem = station_name
         watch_stations = JsonStore("watchlist.json")
         self.watched_offset_station_textinput.text = watch_stations.get(station_name)["offset_station"]
@@ -582,8 +564,34 @@ class WatchinfoRefresh():
     def refresh_cycle(self):
         Clock.schedule_interval(self.watchinfo_refresh, 60)
 
+    def refresh_alarm_cycle(self):
+        Clock.schedule_interval(self.alarm_func, 30)
+
     def refresh_once(self):
         Clock.schedule_once(self.watchinfo_refresh)
+
+    def alarm_func(self, dt):
+        nowtime = time.strftime("%H%M", time.localtime(int(time.time())))
+        with open("refresh_info.json", "r") as f:
+            date = json.load(f)
+        watch_stations = JsonStore("watchlist.json")
+        for i in watch_stations.keys():
+            start_time = watch_stations[i]["start_time_hour"] + watch_stations[i]["start_time_min"]
+            end_time = watch_stations[i]["end_time_hour"] + watch_stations[i]["end_time_min"]
+            watched = watch_stations[i]["watched"]
+            offset_station = watch_stations[i]["offset_station"]
+            offset_time = watch_stations[i]["offset_time"]
+            if i in date and watched and (start_time <= nowtime <= end_time):
+                try:
+                    digit_list = re.split("\D+", date[i])
+                    stations = digit_list[1]
+                    times = digit_list[2]
+                except:
+                    stations = "10000"
+                    times = "10000"
+                if int(stations) <= int(offset_station) or int(times) <= int(offset_time):
+                    sound = SoundLoader.load("loveme.wav")            # wav or mid
+                    sound.play()
 
     def watchinfo_refresh(self, dt):
         headers = {'Content-type': 'application/x-www-form-urlencoded',
@@ -611,9 +619,10 @@ class WatchinfoRefresh():
         try:
             self.bus_distance = json.loads(result)[0]["stopdis"]
             self.bus_time = int(json.loads(result)[0]["time"])//60
-            info = "距离本站还有{0}站  距离本站还有:{1}分钟".format(self.bus_distance, str(self.bus_time))
+            info = "距离本站还有:{0}站  距离本站还有:{1}分钟".format(self.bus_distance, str(self.bus_time))
         except:
             self.errorcode = json.loads(result)["error"]
+            print("debug"+self.errorcode)
             if self.errorcode == "-2":
                 info = "等待发车"
         finally:
@@ -633,5 +642,6 @@ class ShanghaiBusApp(App):
 if __name__ == "__main__":
     s = WatchinfoRefresh()
     s.refresh_once()
+    s.refresh_alarm_cycle()
     s.refresh_cycle()
     ShanghaiBusApp().run()
