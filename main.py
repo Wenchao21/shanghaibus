@@ -323,6 +323,7 @@ class BusStopInfo(BoxLayout):
                                              store.get("sid")["value"]))
         pass
 
+    # 查询后的结果，加入到监控功能， 增加到两个文件，1. 站点刷新文件refresh_info.json， 2. 站点监控位置文件watchlist.json
     def add_to_watchlist(self):
         with open("refresh_info.json", "r") as f:
             refresh_data = json.load(f)
@@ -333,12 +334,14 @@ class BusStopInfo(BoxLayout):
         print(storeinfo)
         print(original_data)
         print(type(original_data))
-        original_data[storeinfo] = {"value":storeinfo, "data":self.data, "offset_station":"3", "offset_time":"5",
-                                    "watched":True, "start_time_hour":"00", "start_time_min":"00",
-                                    "end_time_hour":"24", "end_time_min":"00"}
+        # 站点监控配置文件存储数据的结构
+        original_data[storeinfo] = {"value": storeinfo, "data": self.data, "offset_station": "3", "offset_time": "5",
+                                    "watched": True, "start_time_hour": "00", "start_time_min": "00",
+                                    "end_time_hour": "24", "end_time_min": "00"}
         with open("watchlist.json", "w") as f:
             json.dump(original_data, f)
         key = storeinfo
+        # 增加的刷新信息从当前到站信息界面获取
         try:
             station_offset = self.stopinfo_label.text.split("\n")[1].split(":")[1]
             time_offset = self.stopinfo_label.text.split("\n")[2].split(":")[1]
