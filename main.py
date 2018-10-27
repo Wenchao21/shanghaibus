@@ -22,13 +22,14 @@ import re
 
 store = JsonStore("info.json")
 watch_stations = JsonStore("watchlist.json")
+sound = SoundLoader.load("gun.wav")   # wav or mid; 作为局部变量时可能会出现变量被销毁，而音乐骤停的情况
 query_router_url = 'https://shanghaicity.openservice.kankanews.com/public/bus'
 query_bus_sid = "https://shanghaicity.openservice.kankanews.com/public/bus/get"
 query_bus_router = "https://shanghaicity.openservice.kankanews.com/public/bus/mes/sid/"
 query_bus_stop = "https://shanghaicity.openservice.kankanews.com/public/bus/Getstop"
 
 kivy.resources.resource_add_path(r"C:\Windows\Fonts")
-new_font = kivy.resources.resource_find("msyhl.ttc")     # Android DroidSansFallback.ttf   Windows:
+new_font = kivy.resources.resource_find("msyhl.ttc")     # Android DroidSansFallback.ttf   Windows:msyhl.ttc
 
 
 def render_listbutton(listobject, data):
@@ -43,8 +44,8 @@ def get_root_widget(par):                                        # get the origi
 
 
 class UpdateBusList():
-    def __init__(self):
-        self.get_bus_list()
+    # def __init__(self):
+    #     self.get_bus_list()
 
     def get_bus_list(self):
         req = UrlRequest(query_router_url, on_success=self.parse_bus_list)
@@ -403,6 +404,8 @@ class AboutWidget(BoxLayout):
         self.update.font_name = new_font
 
     def update_buslist(self):
+        update_bus_list = UpdateBusList()
+        update_bus_list.get_bus_list()
         print("BusList updated")
 
 
@@ -412,7 +415,6 @@ class WatchListWidget(BoxLayout):
 
     def __init__(self):
         super().__init__()
-        WatchinfoRefresh(time=1)
         Clock.schedule_once(self.render_widget)
         Clock.schedule_interval(self.render_widget, 5)
 
@@ -423,8 +425,8 @@ class WatchListWidget(BoxLayout):
         watch_stations = JsonStore("watchlist.json")                  # 重新获取json文件内容，否则新增站点不能即刻刷新出来
         with open("refresh_info.json", "r") as f:
             data = json.load(f)
-        print("+++++++++++++++++++++++++++++++++++++")
-        print(data)
+        # print("+++++++++++++++++++++++++++++++++++++")
+        # print(data)
         try:
             for i in watch_stations.keys():
                 if "Thread" in data[i]:
@@ -557,13 +559,6 @@ class WatchinfoRefresh():
     name_req_dict = {}
     req_result_dict = {}
 
-    def __init__(self, time=60):
-        self.time = time
-        if self.time == 60:
-            self.refresh_cycle()
-        else:
-            self.refresh_once()
-
     def refresh_cycle(self):
         Clock.schedule_interval(self.watchinfo_refresh, 60)
 
@@ -574,11 +569,13 @@ class WatchinfoRefresh():
         Clock.schedule_once(self.watchinfo_refresh)
 
     def alarm_func(self, dt):
+        print("AlarmTime:" + time.strftime("%H:%M:%S", time.localtime(int(time.time()))))
         nowtime = time.strftime("%H%M", time.localtime(int(time.time())))
         with open("refresh_info.json", "r") as f:
             date = json.load(f)
         watch_stations = JsonStore("watchlist.json")
         for i in watch_stations.keys():
+            print("ForTime:" + time.strftime("%H:%M:%S", time.localtime(int(time.time()))))
             start_time = watch_stations[i]["start_time_hour"] + watch_stations[i]["start_time_min"]
             end_time = watch_stations[i]["end_time_hour"] + watch_stations[i]["end_time_min"]
             watched = watch_stations[i]["watched"]
@@ -592,11 +589,13 @@ class WatchinfoRefresh():
                 except:
                     stations = "10000"
                     times = "10000"
-                if int(stations) <= int(offset_station) or int(times) <= int(offset_time):
-                    sound = SoundLoader.load("loveme.wav")            # wav or mid
+                if int(stations) <= int(offset_station) or int(times) <= int(offset_time):          # wav or mid
+                    print("AlarmStartTime:" + time.strftime("%H:%M:%S", time.localtime(int(time.time()))))
                     sound.play()
+                    print("AlarmEndTime:" + time.strftime("%H:%M:%S", time.localtime(int(time.time()))))
 
     def watchinfo_refresh(self, dt):
+        print("QueryTime:" + time.strftime("%H:%M:%S", time.localtime(int(time.time()))))
         headers = {'Content-type': 'application/x-www-form-urlencoded',
                    'Accept': 'text/plain'}
         # dt函数定义需要的参数
@@ -617,7 +616,6 @@ class WatchinfoRefresh():
             print(e)
             pass
 
-
     def parse_stop_info(self, req, result):
         try:
             self.bus_distance = json.loads(result)[0]["stopdis"]
@@ -626,7 +624,7 @@ class WatchinfoRefresh():
         except:
             self.errorcode = json.loads(result)["error"]
             print("debug"+self.errorcode)
-            if self.errorcode == "-2":
+            if self.errorcode == "-2" or self.errorcode == "0":
                 info = "等待发车"
         finally:
             for i in WatchinfoRefresh.name_req_dict.keys():
@@ -635,7 +633,6 @@ class WatchinfoRefresh():
             print(WatchinfoRefresh.name_req_dict)
             with open("refresh_info.json", "w") as f:
                 json.dump(WatchinfoRefresh.name_req_dict, f)
-
 
 
 class ShanghaiBusApp(App):
