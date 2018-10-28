@@ -22,7 +22,7 @@ import re
 
 store = JsonStore("info.json")
 watch_stations = JsonStore("watchlist.json")
-sound = SoundLoader.load("gun.wav")   # wav or mid; 作为局部变量时可能会出现变量被销毁，而音乐骤停的情况
+sound = SoundLoader.load("bus.wav")   # wav or mid; 作为局部变量时可能会出现变量被销毁，而音乐骤停的情况
 query_router_url = 'https://shanghaicity.openservice.kankanews.com/public/bus'
 query_bus_sid = "https://shanghaicity.openservice.kankanews.com/public/bus/get"
 query_bus_router = "https://shanghaicity.openservice.kankanews.com/public/bus/mes/sid/"
